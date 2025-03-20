@@ -7,10 +7,8 @@ app.use(express.json());
 env.config();
 
 const db = new pg.Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false, 
-  },
+  connectionString: process.env.DATABASE_URL || 'postgres://localhost:5432/jokes', // Local DB connection as fallback
+  ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false, // SSL config for Render
 });
 db.connect();
 
